@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plant Product</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Agrega tus estilos aquí -->
+</head>
+<body>
+  <!-- Encabezado -->
+  <header>
+    <h1>Plant Product</h1>
+  </header>
+
+  <!-- Preview de la orden personalizada -->
+  <div id="customizePreview">
+    <h2 id="customizeTitle">Preview:</h2>
+    <div id="customizePotImageContainer" class="product-image"></div>
+    <div id="customizeExtrasContainer" class="product-image"></div>
+    <div id="customizeSoilImageContainer" class="product-image"></div>
+    <div id="customizePlantImageContainer" class="product-image"></div>
+    <div id="customizeInfo"></div>
+  </div>
+
+  <!-- Alertas de inventario -->
+  <section class="inventory-alerts">
+    <div class="inventory-alert">
+      <p>Aglaonema Silver Bay is out of stock. Please select a different plant.</p>
+    </div>
+  </section>
+
+  <!-- Accordions de información -->
+  <section class="accordions">
+    <!-- Descripción de la planta -->
+    <div class="accordion">
+      <h3>Plant Description</h3>
+      <p>This is a beautiful Aglaonema Silver Bay plant...</p>
+    </div>
+    <!-- Consejos de cuidado -->
+    <div class="accordion">
+      <h3>Care Tips</h3>
+      <div class="care-section">
+        <h4>Light</h4>
+        <p>Place the plant in bright, indirect light...</p>
+      </div>
+      <div class="care-section">
+        <h4>Water</h4>
+        <p>Water the plant once a week...</p>
+      </div>
+      <!-- Agrega más secciones de cuidado si es necesario -->
+    </div>
+  </section>
+
+  <!-- Botón de ordenar -->
+  <section class="order-button">
+    <button id="orderButton" disabled>Order now!</button>
+  </section>
+
+  <!-- Pie de página -->
+  <footer>
+    <p>© 2023 Plant Store</p>
+  </footer>
+
+  <!-- Carga del archivo de script -->
+  <script src="/JavaScript/store.js" type="module"></script>
+</body>
+</html>
