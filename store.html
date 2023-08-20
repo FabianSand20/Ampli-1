@@ -13,19 +13,24 @@
   </header>
 
   <!-- Preview de la orden personalizada -->
-  <div id="customizePreview">
-    <h2 id="customizeTitle">Preview:</h2>
-    <div id="customizePotImageContainer" class="product-image"></div>
-    <div id="customizeExtrasContainer" class="product-image"></div>
-    <div id="customizeSoilImageContainer" class="product-image"></div>
-    <div id="customizePlantImageContainer" class="product-image"></div>
-    <div id="customizeInfo"></div>
+  <div id="checkoutPreview">
+    <h2 id="checkoutTitle">Preview:</h2>
+    <div id="checkoutPotImageContainer" class="product-image"></div>
+    <div id="checkoutExtrasContainer" class="product-image"></div>
+    <div id="checkoutSoilImageContainer" class="product-image"></div>
+    <div id="checkoutPlantImageContainer" class="product-image"></div>
+    <div id="checkoutInfo">
+      <div id="ch_plant_detail"></div>
+      <div id="ch_pot_detail"></div>
+      <div id="ch_soil_detail"></div>
+      <div id="ch_extra_detail"></div>
+      <div id="ch_total_detail"></div>
+    </div>
   </div>
 
   <!-- Alertas de inventario -->
   <section class="inventory-alerts">
-    <div class="inventory-alert">
-      <p>Aglaonema Silver Bay is out of stock. Please select a different plant.</p>
+    <div id="inventario">
     </div>
   </section>
 
@@ -62,6 +67,6 @@
   </footer>
 
   <!-- Carga del archivo de script -->
-  <script src="/JavaScript/store.js" type="module"></script>
+  <script src="/JavaScript/checkout.js" type="module"></script>
 </body>
 </html>

@@ -45,3 +45,9 @@ export function calculateTotalPrice(items) {
   });
   return totalPrice.toFixed(2);
 }
+
+export function itemPrice(item){
+  if (itemPrices[item]) {
+  return itemPrices[item]
+} else { return '0.00'}
+}

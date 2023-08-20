@@ -10,6 +10,7 @@ import { Subject, PlantImageObserver } from './Modules/observer.js'
 // Get references to the radio inputs using their IDs
 const clayPotRadio = document.getElementById('clayPot');
 const ceramicPotRadio = document.getElementById('ceramicPot');
+var plantSelected = JSON.parse(localStorage.getItem("PlantImage"));
 
 clayPotRadio.addEventListener('change', handlePotChange);
 ceramicPotRadio.addEventListener('change', handlePotChange);
@@ -17,15 +18,16 @@ function handlePotChange(event) {
   const selectedPot = event.target.value;
 
   const ImagePot = document.getElementById('pot');
-  let plantSelected = JSON.parse(localStorage.getItem("PlantImage"));
   if (selectedPot == "clay") {
     //Guardar en localStorage material ligado a la planta seleccionanda
     console.log('strign, lalala')
-    console.log(plantSelected)
-    plantSelected.material = 'simple-clay-pot.png'
-    ImagePot.src = "Assets/images/simple-clay-pot.png"
+    console.log(plantSelected);
+    plantSelected.typeMaterial = 'clay';
+    plantSelected.material = 'simple-clay-pot.png';
+    ImagePot.src = "Assets/images/simple-clay-pot.png";
   } else if (selectedPot === "ceramic") {
     ImagePot.src = "Assets/images/simple-ceramic-pot.png";
+    plantSelected.typeMaterial = 'ceramic';
     plantSelected.material = 'simple-ceramic-pot.png'
   }
   localStorage.setItem('PlantImage', JSON.stringify(plantSelected));
@@ -36,39 +38,52 @@ function handlePotChange(event) {
 // !REVISAR BIEN ESTO
 
 const potDecorationsToggle = document.getElementById('potDecorationsToggle');
-let plantSelected = JSON.parse(localStorage.getItem("PlantImage"));
 
 potDecorationsToggle.addEventListener('change', handlePotDecorationsChange);
 function handlePotDecorationsChange(event) {
   const ImagePot = document.getElementById('pot');
 
   if (event.target.checked) {
-    const decoratedPotImage = ImagePot.src.includes("simple-ceramic-pot")
-      ? "Assets/images/simple-ceramic-pot-decorated.png"
-      : "Assets/images/simple-clay-pot-decorated.png";
-
+    const decoratedPotImage = `Assets/images/${plantSelected.typeMaterial}-decorated-${plantSelected.selectedPotColor}.PNG`
     ImagePot.src = decoratedPotImage;
     plantSelected.decoration = decoratedPotImage;
+    plantSelected.decorated = true;
   } else {
-    const originalPotImage = ImagePot.src.includes("simple-ceramic-pot-decorated")
-      ? "Assets/images/simple-ceramic-pot.png"
-      : "Assets/images/simple-clay-pot.png";
-
+    const originalPotImage = `Assets/images/${plantSelected.typeMaterial}-simple-${plantSelected.selectedPotColor}.PNG`
     ImagePot.src = originalPotImage;
     plantSelected.decoration = originalPotImage;
+    plantSelected.decorated = false;
   }
 
   // Update plantSelected in local storage
   localStorage.setItem('PlantImage', JSON.stringify(plantSelected));
 }
 
+function setDecoration(decorated){
+
+  switch (selectedColor) {
+    case 'blue':
+      
+      return ;
+
+      break;
+    case 'pink':
+      break;
+
+    case 'green': 
+      break;
+    case 'purple':
+      break;
+    default:
+      // Handle default behavior if needed
+      break;
+  }
+}
+
 //*****Seleccion del COLOR*******
-// !REVISAR
 const potColorToggle = document.getElementById('potColorToggle');
 
 potColorToggle.addEventListener('change', handlePotColorToggleChange);
-debugger;
-console.log('hola')
 function handlePotColorToggleChange(event) {
   const potColorOptions = document.getElementById('potColorOptions');
   const selectedColor = document.querySelector('input[name="potColor"]:checked');
@@ -92,31 +107,71 @@ function handlePotColorChange(event) {
   const selectedColor = event.target.value;
   const ImagePot = document.getElementById('pot');
 
-  let plantSelected = JSON.parse(localStorage.getItem("PlantImage"));
-
   switch (selectedColor) {
     case 'blue':
-      plantSelected.potColor = 'simple-clay-pot.png'
-      ImagePot.src = "Assets/images/painted-clay-pot-decorated.png";
+      let blue_path, blue_pot;
+      blue_pot = setPotColor('blue');
+      blue_path = `Assets/images/${blue_pot}.PNG`;
+      ImagePot.src = blue_path;
+      plantSelected.potColor = blue_pot;
+      plantSelected.selectedPotColor = 'blue';
+
+      localStorage.setItem('PlantImage', JSON.stringify(plantSelected));
       break;
     case 'pink':
-      plantSelected.potColor = 'painted-ceramic-pot-decorated.png'
-      ImagePot.src = "Assets/images/painted-ceramic-pot-decorated.png";
+      let pink_path, pink_pot;
+      pink_pot = setPotColor('pink');
+      pink_path = `Assets/images/${pink_pot}.PNG`;
+      ImagePot.src = pink_path;
+      plantSelected.potColor = pink_pot;
+      plantSelected.selectedPotColor = 'pink';
+
+      localStorage.setItem('PlantImage', JSON.stringify(plantSelected));
       break;
-    case 'green':
-      ImagePot.src = "Assets/images/green-pot.png";
+
+    case 'green': 
+      let green_path, green_pot;
+      green_pot = setPotColor('green');
+      green_path = `Assets/images/${green_pot}.PNG`;
+      ImagePot.src = green_path;
+      plantSelected.potColor = green_pot;
+      plantSelected.selectedPotColor = 'green';
+
+      localStorage.setItem('PlantImage', JSON.stringify(plantSelected));
+
       break;
     case 'purple':
-      ImagePot.src = "Assets/images/purple-pot.png";
+      ImagePot.src = "Assets/images/-pot.png";
+      let purplepath, purple_pot;
+      purple_pot = setPotColor('purple');
+      purplepath = `Assets/images/${purple_pot}.PNG`;
+      ImagePot.src = purplepath;
+      plantSelected.potColor = purple_pot;
+      plantSelected.selectedPotColor = 'purple';
+      localStorage.setItem('PlantImage', JSON.stringify(plantSelected));
       break;
     default:
       // Handle default behavior if needed
       break;
   }
-  localStorage.setItem('PlantImage', JSON.stringify(plantSelected));
 
 }
 
+ function setPotColor(color){
+  if (plantSelected.typeMaterial == 'clay' && plantSelected.decorated) {
+   return `clay-decorated-${color}`;
+  } 
+  
+  if (plantSelected.typeMaterial == 'clay' && plantSelected.decorated == false) {
+    return `clay-simple-${color}`;
+  } 
+  if (plantSelected.typeMaterial == 'ceramic' && plantSelected.decorated) {
+    return `ceramic-decorated-${color}`;
+  } 
+  if (plantSelected.typeMaterial == 'ceramic' && plantSelected.decorated == false) {
+    return `ceramic-simple-${color}`;
+  } 
+}
 //*****Decoracion del SOIL*******
 
 const basicSoilRadio = document.getElementById('basicSoil');
@@ -130,8 +185,6 @@ drainageSoilRadio.addEventListener('change', handleSoilChange);
 function handleSoilChange(event) {
   const selectedSoil = event.target.value;
   const ImageSoil = document.getElementById('soil');
-
-  let plantSelected = JSON.parse(localStorage.getItem("PlantImage"));
 
   if (selectedSoil === 'basicSoil') {
     plantSelected.Abono = 'simple-clay-pot.png'
@@ -147,6 +200,7 @@ function handleSoilChange(event) {
 
 }
 
+
 //*****Eleccion del PLANTA*******
 const choosePlantSelect = document.getElementById('formPlant');
 choosePlantSelect.addEventListener('change', handlePlantChange);
@@ -154,39 +208,37 @@ choosePlantSelect.addEventListener('change', handlePlantChange);
 function handlePlantChange(event) {
   const selectedPlant = event.target.value;
   const ImagePlant = document.getElementById('choosePlant');
-  let plantSelected = JSON.parse(localStorage.getItem("PlantImage"));
 
-  debugger;
   console.log(ImagePlant)
   switch (selectedPlant) {
     case 'Aglaonema Silver Bay':
       ImagePlant.src = 'Assets/images/plant-aglaonema.png';
-      plantSelected.plant = 'plant-aglaonema.png';
+      plantSelected.plant = 'aglaonema';
       break;
     case 'Aloe Vera':
       ImagePlant.src = 'Assets/images/plant-aloe.png';
-      plantSelected.plant = 'plant-aloe.png';
+      plantSelected.plant = 'aloe';
       break;
     case 'Boston Fern':
       ImagePlant.src = 'Assets/images/plant-fern.png';
-      plantSelected.plant = 'plant-fern.png';
+      plantSelected.plant = 'fern';
       break;
     case 'Cactus':
       ImagePlant.src = 'Assets/images/plant-cactus.png';
-      plantSelected.plant = 'plant-cactus.png';
+      plantSelected.plant = 'cactus';
       break;
     case 'Monstera Deliciosa':
       ImagePlant.src = 'Assets/images/plant-monstera.png';
-      plantSelected.plant = 'plant-monstera.png';
+      plantSelected.plant = 'monstera';
       break;
     case 'Peace Lily':
       ImagePlant.src = 'Assets/images/plant-peace-lily.png';
-      plantSelected.plant = 'plant-peace-lily.png';
+      plantSelected.plant = 'peace-lily';
 
       break;
     case 'Sansevieria':
       ImagePlant.src = 'Assets/images/plant-sansevieria.png';
-      plantSelected.plant = 'plant-sansevieria.png';
+      plantSelected.plant = 'sansevieria';
       break;
     default:
       ImagePlant.src = '';
@@ -207,12 +259,14 @@ pebblesCheckbox.addEventListener('change', handleExtrasChange);
 smallerPlantsCheckbox.addEventListener('change', handleExtrasChange);
 
 function handleExtrasChange() {
-  const ImageExtras = document.getElementById('extrasContainer');
+
+  const ImageExtras = document.getElementById('customizeExtrasContainer');
   ImageExtras.innerHTML = ''; // Limpiar el contenido actual
 
   if (mossPoleCheckbox.checked) {
     const mossPoleImg = document.createElement('img');
     mossPoleImg.src = 'Assets/images/moss-pole.png';
+    plantSelected.extras = 'moss-pole.png';
     mossPoleImg.alt = 'Moss Pole';
     ImageExtras.appendChild(mossPoleImg);
   }
@@ -220,6 +274,7 @@ function handleExtrasChange() {
   if (pebblesCheckbox.checked) {
     const pebblesImg = document.createElement('img');
     pebblesImg.src = 'Assets/images/pebbles.png';
+    plantSelected.extras = 'pebbles.png';
     pebblesImg.alt = 'Pebbles';
     ImageExtras.appendChild(pebblesImg);
   }
@@ -227,9 +282,11 @@ function handleExtrasChange() {
   if (smallerPlantsCheckbox.checked) {
     const smallerPlantsImg = document.createElement('img');
     smallerPlantsImg.src = 'Assets/images/mini-plants.png';
+    plantSelected.extras = 'mini-plants.png';
     smallerPlantsImg.alt = 'Smaller Plants';
     ImageExtras.appendChild(smallerPlantsImg);
   }
+  localStorage.setItem('PlantImage', JSON.stringify(plantSelected));
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -263,6 +320,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const choosePlant = document.getElementById('choosePlant').value;
     const chooseSoil = document.querySelector('input[name="chooseSoil"]:checked');
     const chooseExtras = Array.from(document.querySelectorAll('input[name="chooseExtras"]:checked'));
+    let customizeExtrasContainer = document.getElementById('customizeExtrasContainer');
 
     if (choosePot && choosePlant && chooseSoil) {
       const builder = new PlantBuilder();
@@ -331,7 +389,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Create and append plant image
     const plantImage = document.createElement('img');
-    plantImage.src = `Assets/images/${imagesHOJA.plant}`;
+    plantImage.src = `Assets/images/plant-${imagesHOJA.plant}.png`;
     plantImage.id = "choosePlant"
     customizePlantImageContainer.appendChild(plantImage);
 
@@ -343,12 +401,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Create and append extras images
     const extraImage = document.createElement('img');
-    extraImage.src = `assets/images/${extra}.png`;
-    extraImage.id = "extra"
-    extrasContainer.appendChild(soilImage);
+    extraImage.src = `Assets/images/${imagesHOJA.extras}`;
+    console.log(extraImage.src )
+    extraImage.id = "extras"
+    customizeExtrasContainer.appendChild(extraImage);
 
     customizationSubject.notify({
-      image: imagesHOJA.water, // Imagen de la maceta
+      image: imagesHOJA.pot, // Imagen de la maceta
     });
     customizationSubject.notify({
       image: imagesHOJA.plant, // Imagen de la planta
@@ -356,6 +415,8 @@ document.addEventListener('DOMContentLoaded', function () {
     customizationSubject.notify({
       image: imagesHOJA.soil, // Imagen del suelo
     });
-
+    customizationSubject.notify({
+      image: imagesHOJA.extras, // Imagen del suelo
+    });
   }
 });
