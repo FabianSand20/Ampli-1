@@ -188,11 +188,14 @@ function handleSoilChange(event) {
 
   if (selectedSoil === 'basicSoil') {
     plantSelected.Abono = 'simple-clay-pot.png'
+    plantSelected.soil_type = 'composted'
     ImageSoil.src = 'Assets/images/soil-composted.png';
   } else if (selectedSoil === 'premiumSoil') {
+    plantSelected.soil_type = 'fertilized'
     plantSelected.Abono = 'soil-fertilized.png'
     ImageSoil.src = 'Assets/images/soil-fertilized.png';
   } else if (selectedSoil === 'drainageSoil') {
+    plantSelected.soil_type = 'drainage'
     plantSelected.Abono = 'soil-drainage.png'
     ImageSoil.src = 'Assets/images/soil-drainage.png';
   }
