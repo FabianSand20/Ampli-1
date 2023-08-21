@@ -1,4 +1,6 @@
 import { itemPrice } from './Modules/pricing.js';
+import { calculateTotalPrice } from './Modules/pricing.js';
+
 import {checkInventory} from './Modules/api.js'
 
 var plantSelected = JSON.parse(localStorage.getItem("PlantImage"));
@@ -58,22 +60,32 @@ function displayImage() {
 
 
   // Create recommendation info
-  const plant = plantSelected.plant;
-  const description = document.createElement('h2');
-  const plant_price = document.createElement('h3');
-  description.textContent = plant;
-  const plantPrice = `$ ${itemPrice(plant)}`;
-  plant_price.textContent = plantPrice;
-  ch_plant_detail.appendChild(description);
-  ch_plant_detail.appendChild(plant_price);
 
-  const pot_name_element = document.createElement('h2');
-  const pot_price_element= document.createElement('h3');
-  pot_name_element.textContent = selectedPot;
-  const potPrice = `$ ${itemPrice(selectedPot)}`;
-  pot_price_element.textContent = potPrice;
-  ch_pot_detail.appendChild(pot_name_element);
-  ch_pot_detail.appendChild(pot_price_element);
+
+  createCheckoutFields(plantSelected.plant);
+  createCheckoutFields(selectedPot);
+  createCheckoutFields(plantSelected.soil_type);
+  const fields = [plantSelected.plant, selectedPot, plantSelected.soil_type ]
+  setTotalCheckout(fields)
+}
+
+function setTotalCheckout(fields){
+  const field_name = document.createElement('h2');
+  const field_price = document.createElement('span');
+  field_name.textContent = "Total";
+  const price = `$ ${calculateTotalPrice(fields)}`;
+  field_price.textContent = price;
+  checkoutInfo.appendChild(field_name);
+  field_name.appendChild(field_price);
+}
+function createCheckoutFields(elem, html_elem){
+  const field_name = document.createElement('h2');
+  const field_price = document.createElement('span');
+  field_name.textContent = elem;
+  const price = `$ ${itemPrice(elem)}`;
+  field_price.textContent = price;
+  checkoutInfo.appendChild(field_name);
+  field_name.appendChild(field_price);
 }
 
 
