@@ -2,10 +2,10 @@ import { itemPrice } from './Modules/pricing.js';
 import { calculateTotalPrice } from './Modules/pricing.js';
 
 import {checkInventory} from './Modules/api.js'
+import {getPlantInfo} from './Modules/api.js'
 
 var plantSelected = JSON.parse(localStorage.getItem("PlantImage"));
 var selectedPot = '';
-const checkoutPreview = document.getElementById('checkoutPreview');
 const checkoutTitle = document.getElementById('checkoutTitle');
 const checkoutPotImageContainer = document.getElementById('checkoutPotImageContainer');
 const checkoutExtrasContainer = document.getElementById('checkoutExtrasContainer');
@@ -65,6 +65,7 @@ function displayImage() {
   const fields = [plantSelected.plant, selectedPot, plantSelected.soil_type ]
   setTotalCheckout(fields)
   fetchInventory();
+  fetchDescription();
 }
 
 function setTotalCheckout(fields){
@@ -87,12 +88,10 @@ function createCheckoutFields(elem, html_elem){
 
 }
 
-
 function fetchInventory() {
   const field_name = document.createElement('h2');
   const field_price = document.createElement('span');
-  field_name.textContent = "Avaliable";
-  var price ="0.00"
+  field_name.textContent = "Items Avaliables";
   checkInventory("plant",plantSelected.plant).then((a) => {
     field_price.textContent =  a['stock'];
     inventary.appendChild(field_name);
@@ -100,3 +99,33 @@ function fetchInventory() {
   });
 }
 
+
+function fetchDescription(){
+  let care_container = document.getElementById('care_container');
+  let plant_description = document.getElementById('plant_description');
+
+  
+
+  getPlantInfo(plantSelected.plant).then((a) => {
+    console.log(a)
+    plant_description.textContent =  a['description'];
+
+     var  care_list = a['care']
+     for(var i in care_list) {
+      const div = document.createElement('div');
+      const h4 = document.createElement('h4');
+      const p = document.createElement('p');
+      if (care_list.hasOwnProperty(i)) {
+        h4.textContent =  i;
+        p.textContent =  care_list[i]
+        div.appendChild(h4);
+        div.appendChild(p);
+        care_container.appendChild(div);
+
+      }
+    }
+
+  });
+
+
+}
