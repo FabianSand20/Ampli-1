@@ -12,11 +12,8 @@ const checkoutExtrasContainer = document.getElementById('checkoutExtrasContainer
 const checkoutSoilImageContainer = document.getElementById('checkoutSoilImageContainer');
 const checkoutPlantImageContainer = document.getElementById('checkoutPlantImageContainer');
 const checkoutInfo = document.getElementById('checkoutInfo');
-const ch_plant_detail = document.getElementById('ch_plant_detail');
-const ch_pot_detail = document.getElementById('ch_pot_detail');
-const ch_soil_detail = document.getElementById('ch_soil_detail');
-const ch_extra_detail = document.getElementById('ch_extra_detail');
-const ch_total_detail = document.getElementById('ch_total_detail');
+const inventary = document.getElementById('inventario');
+
 
 displayImage();
 
@@ -67,6 +64,7 @@ function displayImage() {
   createCheckoutFields(plantSelected.soil_type);
   const fields = [plantSelected.plant, selectedPot, plantSelected.soil_type ]
   setTotalCheckout(fields)
+  fetchInventory();
 }
 
 function setTotalCheckout(fields){
@@ -86,6 +84,19 @@ function createCheckoutFields(elem, html_elem){
   field_price.textContent = price;
   checkoutInfo.appendChild(field_name);
   field_name.appendChild(field_price);
+
 }
 
+
+function fetchInventory() {
+  const field_name = document.createElement('h2');
+  const field_price = document.createElement('span');
+  field_name.textContent = "Avaliable";
+  var price ="0.00"
+  checkInventory("plant",plantSelected.plant).then((a) => {
+    field_price.textContent =  a['stock'];
+    inventary.appendChild(field_name);
+    field_name.appendChild(field_price);
+  });
+}
 
