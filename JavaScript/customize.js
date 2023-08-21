@@ -236,7 +236,7 @@ function handlePlantChange(event) {
       break;
     case 'Peace Lily':
       ImagePlant.src = 'Assets/images/plant-peace-lily.png';
-      plantSelected.plant = 'peace-lily';
+      plantSelected.plant = 'peaceLily';
 
       break;
     case 'Sansevieria':
